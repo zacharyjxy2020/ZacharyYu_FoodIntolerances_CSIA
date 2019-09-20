@@ -11,6 +11,7 @@ import GoogleMaps
 import GooglePlaces
 
 
+
 class ResultViewController: UIViewController{
     
     var searchQuery: String = ""
@@ -18,6 +19,10 @@ class ResultViewController: UIViewController{
     
     var addressFinal:String = ""
     var nameFinal:String = ""
+    
+    var locLat:Double = 0.0
+    var locLong:Double = 0.0
+    
     
     var userLat: Double = 0.0
     var userLong: Double = 0.0
@@ -55,55 +60,90 @@ class ResultViewController: UIViewController{
         
         
         
-        
-        searchLocation()
+          findYelpLocations()
+//        searchLocation()
     }
     
-    func setupPermissions() {
+    func findYelpLocations() {
+        let apikey = "NpE-HLs5nHXft6q067v6wt1fOUUGkxfcwELz1yXVcwNuESEvANjrIrXdtCEQsSyl_B4xnKaBe6W21NkdRrd7xUkQU9EuK-aXSY6JWhs11cxOGPSS2ZOaHyHqex2EXXYx"
+        let url = URL(string: "https://api.yelp.com/v3/businesses/search?latitude=\(userLat)&longitude=\(userLong)&term=\(searchQuery)&radius=1000)")
+        var request = URLRequest(url: url!)
+        request.setValue("Bearer \(apikey)", forHTTPHeaderField: "Authorization")
+        request.httpMethod = "GET"
         
-    }
-    
-    func searchLocation(){
-        
-        var searchString = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=\(searchQuery)&inputtype=textquery&fields=formatted_address,name,opening_hours,rating&locationbias=circle:10000@\(userLat),\(userLong)&key=AIzaSyBnwkbhnLSt-IakK2mEyMA5lJnbsIBscGM"
-        
-        searchString = searchString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
-        
-        var urlRequest = URLRequest(url: URL(string: searchString)!)
-        
-        urlRequest.httpMethod = "GET"
-        
-        let task = URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
-            if error == nil{
-                let responseData = data
-                if data != nil{
-                    let jsonDict = try? JSONSerialization.jsonObject(with: responseData!, options: .mutableContainers)
-                    
-                    if let dict = jsonDict as? Dictionary<String, AnyObject>{
-                        if let results = dict["candidates"] as? [Dictionary<String, AnyObject>]{
-                            print("json == \(results)")
-                            self.resultsArray.removeAll()
-                            for dct in results{
-                                self.resultsArray.append(dct)
-                            }
-                            DispatchQueue.main.async {
-                                self.placeTable.reloadData()
-                            }
-                            
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let err = error{
+                print(err.localizedDescription)
+            }
+            
+            let responseData = data
+            if data != nil{
+                print("got data")
+                let jsonDict = try? JSONSerialization.jsonObject(with: responseData!, options: .mutableContainers)
+                if let dict = jsonDict as? Dictionary<String,AnyObject>{
+                    if let results = dict["businesses"] as? [Dictionary<String, AnyObject>]{
+                        print("json == \(results) ")
+                        self.resultsArray.removeAll()
+                        for dct in results{
+                            self.resultsArray.append(dct)
+                        }
+                        print(self.resultsArray)
+                        DispatchQueue.main.async {
+                            self.placeTable.reloadData()
                         }
                     }
-                }else{
-                    print("error")
                 }
-                
-            }else{
-                print("error is: " + error.debugDescription)
             }
+            
+            
+            
         }
-        task.resume()
     }
+    
+    
+    
+//    func searchLocation(){
+//
+//        var searchString = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=\(searchQuery)&inputtype=textquery&fields=formatted_address,name,opening_hours,rating,geometry/location&locationbias=circle:10000@\(userLat),\(userLong)&key=AIzaSyBnwkbhnLSt-IakK2mEyMA5lJnbsIBscGM"
+//
+//        searchString = searchString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+//
+//        var urlRequest = URLRequest(url: URL(string: searchString)!)
+//
+//        urlRequest.httpMethod = "GET"
+//
+//        let task = URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
+//            if error == nil{
+//                print("No error")
+//                let responseData = data
+//                if data != nil{
+//                    let jsonDict = try? JSONSerialization.jsonObject(with: responseData!, options: .mutableContainers)
+//
+//                    if let dict = jsonDict as? Dictionary<String, AnyObject>{
+//                        if let results = dict["candidates"] as? [Dictionary<String, AnyObject>]{
+//                            print("json == \(results)")
+//                            self.resultsArray.removeAll()
+//                            for dct in results{
+//                                self.resultsArray.append(dct)
+//                            }
+//                            DispatchQueue.main.async {
+//                                self.placeTable.reloadData()
+//                            }
+//
+//                        }
+//                    }
+//                }else{
+//                    print("error")
+//                }
+//
+//            }else{
+//                print("error is: " + error.debugDescription)
+//            }
+//        }
+//        task.resume()
+//    }
+//}
 }
-
 extension ResultViewController: CLLocationManagerDelegate{
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -124,10 +164,15 @@ extension ResultViewController: UITableViewDataSource{
         if let lblPlaceName = cell?.contentView.viewWithTag(102) as? UILabel{
             let place = self.resultsArray[indexPath.row]
             let name:String = place["name"] as! String
-            let address:String = place["formatted_address"] as! String
+            let address:String = place["address1"] as! String
             addressFinal = address
             nameFinal = name
-            let rating:Double = place["rating"] as! Double
+            let rating:Int = place["rating"] as! Int
+            
+            if let coordinateDict = place["coordinates"] as? [Dictionary<String, AnyObject>]{
+                self.locLat = coordinateDict["latitude"]
+                self.locLong = coordinateDict["longitude"]
+            }
             
             lblPlaceName.text = name + ". " + address + ". " + ". The rating is " + "\(rating)"
             
@@ -151,8 +196,8 @@ extension ResultViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
+

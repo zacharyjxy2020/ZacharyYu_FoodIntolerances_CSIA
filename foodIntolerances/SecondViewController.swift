@@ -35,7 +35,7 @@ class SecondViewController: UIViewController {
     */
     
     @IBAction func setGluten(_ sender: Any) {
-        searchQuery = "gluten%20free%20restaurant"
+        searchQuery = "gluten%20free"
         performSegue(withIdentifier: "resultSegue", sender: self)
     }
     
@@ -48,13 +48,13 @@ class SecondViewController: UIViewController {
     }
 
     @IBAction func setVeg(_ sender: Any) {
-        searchQuery = "Vegetarian%20restaurant"
+        searchQuery = "Vegetarian"
         performSegue(withIdentifier: "resultSegue", sender: self)
     }
     
     
     @IBAction func setVegan(_ sender: Any) {
-        searchQuery = "vegan%20restaurant"
+        searchQuery = "vegan"
         performSegue(withIdentifier: "resultSegue", sender: self)
     }
     

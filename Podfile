@@ -11,8 +11,8 @@ pod 'FirebaseUI/Auth'
 pod 'GoogleMaps'
 pod 'GooglePlaces'
 
-pod 'Alamofire', '~> 4.5'
-pod 'PromiseKit', '~> 4.5'
+
+pod 'CDYelpFusionKit' 
 
   target 'foodIntolerancesTests' do
     inherit! :search_paths

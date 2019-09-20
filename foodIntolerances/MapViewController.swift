@@ -17,8 +17,10 @@ class MapViewController: UIViewController {
     
     var mapView = GMSMapView()
     
+    
     var coordinates:CLLocationCoordinate2D!
-    var geocoder: CLGeocoder!
+    
+    let geocoder =  CLGeocoder()
     var lat: Double = 0.0
     var lon: Double = 0.0
     let zoomLevel:Float = 6.0
@@ -27,24 +29,25 @@ class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        geocoder = CLGeocoder()
         
-        getCoordinates(address: address)
+        getCoordinates()
         
     }
     
 
-    func getCoordinates(address:String) {
-        geocoder.geocodeAddressString(address) { (placemarks, error) in
+    func getCoordinates() {
+        geocoder.geocodeAddressString(address) {(placemarks,error) in
             guard
                 let placemarks = placemarks,
                 let location = placemarks.first?.location
-                else{
+                else {
+                    print("No location found")
                     return
+                }
+            
+                self.lat = location.coordinate.latitude
+                self.lon = location.coordinate.longitude
             }
-            self.lat = location.coordinate.latitude
-            self.lon = location.coordinate.longitude
-        }
     }
     
     override func loadView() {

@@ -39,7 +39,6 @@ extension ViewController: FUIAuthDelegate{
         if error != nil{
             performSegue(withIdentifier: "signUpSegue", sender: self)
         } else{
-            print("error is: \(error)")
             return
         }
     }
