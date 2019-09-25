@@ -9,13 +9,15 @@
 import UIKit
 import GoogleMaps
 import GooglePlaces
-
+import CDYelpFusionKit
+import AlamofireObjectMapper
 
 
 class ResultViewController: UIViewController{
     
     var searchQuery: String = ""
     var locationManager = CLLocationManager()
+    
     
     var addressFinal:String = ""
     var nameFinal:String = ""
@@ -32,7 +34,10 @@ class ResultViewController: UIViewController{
     
     @IBOutlet weak var labelText: UILabel!
     
-    var resultsArray: [Dictionary<String, AnyObject>] = Array()
+    var resultsArray: [Dictionary<String,Any>] = []
+//    var resultsArray: [CDYelpBusiness] = []
+    
+    let placeclient = GMSPlacesClient()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,49 +64,74 @@ class ResultViewController: UIViewController{
         
         
         
-        
-          findYelpLocations()
+          searchRestaurants()
+//          findYelpLocations()
 //        searchLocation()
     }
     
-    func findYelpLocations() {
+    func searchRestaurants() {
         let apikey = "NpE-HLs5nHXft6q067v6wt1fOUUGkxfcwELz1yXVcwNuESEvANjrIrXdtCEQsSyl_B4xnKaBe6W21NkdRrd7xUkQU9EuK-aXSY6JWhs11cxOGPSS2ZOaHyHqex2EXXYx"
-        let url = URL(string: "https://api.yelp.com/v3/businesses/search?latitude=\(userLat)&longitude=\(userLong)&term=\(searchQuery)&radius=1000)")
-        var request = URLRequest(url: url!)
+        let urL = URL(string: "https://api.yelp.com/v3/businesses/search?categories=restaurants%2Cbars%2Ccafes&latitude=\(userLat)&limit=20&longitude=\(userLong)&open_now=1&radius=5000&sort_by=best_match&term=\(searchQuery)")
+        var request = URLRequest(url: urL!)
         request.setValue("Bearer \(apikey)", forHTTPHeaderField: "Authorization")
         request.httpMethod = "GET"
         
-        URLSession.shared.dataTask(with: request) { (data, response, error) in
-            if let err = error{
-                print(err.localizedDescription)
-            }
-            
-            let responseData = data
-            if data != nil{
-                print("got data")
-                let jsonDict = try? JSONSerialization.jsonObject(with: responseData!, options: .mutableContainers)
-                if let dict = jsonDict as? Dictionary<String,AnyObject>{
-                    if let results = dict["businesses"] as? [Dictionary<String, AnyObject>]{
-                        print("json == \(results) ")
+        let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
+            if error == nil{
+                print("no error")
+                let responseData = data
+                if data != nil{
+                    let jsonDict = try? JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
+//                    print(jsonDict)
+                    
+                    if let results = jsonDict as? [String: Any] {
+                        print("json == \(results)")
                         self.resultsArray.removeAll()
-                        for dct in results{
-                            self.resultsArray.append(dct)
-                        }
-                        print(self.resultsArray)
+                        
+                        self.resultsArray.append(results)
+                        print("resultsarray == \(self.resultsArray)")
+                        
                         DispatchQueue.main.async {
                             self.placeTable.reloadData()
                         }
+                    } else{
+                        print("Translation failed")
                     }
+                } else{
+                    print("no data")
                 }
+            } else{
+                print("error")
             }
-            
-            
-            
+            print("This ran")
         }
+        
+        task.resume()
     }
     
+    //Yelp API Search
+//    func findYelpLocations() {
+//        let apikey = "NpE-HLs5nHXft6q067v6wt1fOUUGkxfcwELz1yXVcwNuESEvANjrIrXdtCEQsSyl_B4xnKaBe6W21NkdRrd7xUkQU9EuK-aXSY6JWhs11cxOGPSS2ZOaHyHqex2EXXYx"
+//        let yelpAPIClient = CDYelpAPIClient(apiKey: apikey)
+//        yelpAPIClient.cancelAllPendingAPIRequests()
+//        yelpAPIClient.searchBusinesses(byTerm: searchQuery, location: nil, latitude: userLat, longitude: userLong, radius: 5000, categories: [.restaurants,.bars,.cafes], locale: nil, limit: 20, offset: nil, sortBy: .bestMatch, priceTiers: nil, openNow: true, openAt: nil, attributes: nil) { (response) in
+//                if let response = response,
+//                    let businesses = response.businesses,
+//                    businesses.count>0{
+//                    print("Results found")
+//
+//                    self.resultsArray = businesses
+//                } else{
+//                    print("none found")
+//                }
+//            print("this ran")
+//        }
+//
+//
+//    }
     
     
+    //Old Maps API Search
 //    func searchLocation(){
 //
 //        var searchString = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=\(searchQuery)&inputtype=textquery&fields=formatted_address,name,opening_hours,rating,geometry/location&locationbias=circle:10000@\(userLat),\(userLong)&key=AIzaSyBnwkbhnLSt-IakK2mEyMA5lJnbsIBscGM"
@@ -163,18 +193,25 @@ extension ResultViewController: UITableViewDataSource{
         let cell = tableView.dequeueReusableCell(withIdentifier: "placeCell")
         if let lblPlaceName = cell?.contentView.viewWithTag(102) as? UILabel{
             let place = self.resultsArray[indexPath.row]
-            let name:String = place["name"] as! String
-            let address:String = place["address1"] as! String
-            addressFinal = address
-            nameFinal = name
-            let rating:Int = place["rating"] as! Int
+            let business = place["businesses"]
+//            print("businesses == \(String(describing: businesses))")
+            let businesses = business as! Array<[String:AnyObject]>
+            let businessFinal = businesses[indexPath.row]
             
-            if let coordinateDict = place["coordinates"] as? [Dictionary<String, AnyObject>]{
-                self.locLat = coordinateDict["latitude"]
-                self.locLong = coordinateDict["longitude"]
-            }
             
-            lblPlaceName.text = name + ". " + address + ". " + ". The rating is " + "\(rating)"
+//            print("business1 == \(business1)")
+            let name:String = businessFinal["name"] as! String
+            let address:String = businessFinal["address1"] as! String
+//            addressFinal = address
+//            nameFinal = name
+//            let rating = place.rating
+//            let businessLat = place.coordinates?.latitude
+//            let businessLong = place.coordinates?.longitude
+            
+//            locLat = businessLat as! Double
+//            locLong = businessLong as! Double
+            
+//            lblPlaceName.text = name + ". " + ". " + ". The rating is " + "\(rating)"
             
         }
         

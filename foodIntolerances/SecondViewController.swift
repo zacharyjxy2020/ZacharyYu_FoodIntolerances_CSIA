@@ -35,7 +35,7 @@ class SecondViewController: UIViewController {
     */
     
     @IBAction func setGluten(_ sender: Any) {
-        searchQuery = "gluten%20free"
+        searchQuery = "gluten free"
         performSegue(withIdentifier: "resultSegue", sender: self)
     }
     
