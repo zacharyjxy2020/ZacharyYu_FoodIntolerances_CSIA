@@ -46,6 +46,17 @@ class ResultViewController: UIViewController{
         placeTable.delegate = self
         placeTable.estimatedRowHeight = 44.0
         
+        
+        
+        
+        getlocation()
+        searchRestaurants()
+//          findYelpLocations()
+//        searchLocation()
+    }
+    
+    func getlocation(){
+        
         self.locationManager.requestWhenInUseAuthorization()
         
         if CLLocationManager.locationServicesEnabled(){
@@ -53,20 +64,11 @@ class ResultViewController: UIViewController{
             locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
             locationManager.startUpdatingLocation()
-            let coordinates = locationManager.location?.coordinate
-            userLat = coordinates!.latitude
-            userLong = coordinates!.longitude
         } else{
             locationManager.requestAlwaysAuthorization()
             userLat = 0
             userLong = 0
         }
-        
-        
-        
-          searchRestaurants()
-//          findYelpLocations()
-//        searchLocation()
     }
     
     func searchRestaurants() {
@@ -78,108 +80,51 @@ class ResultViewController: UIViewController{
         
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
             if error == nil{
-                print("no error")
+//                print("no error")
                 let responseData = data
                 if data != nil{
                     let jsonDict = try? JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
 //                    print(jsonDict)
                     
                     if let results = jsonDict as? [String: Any] {
-                        print("json == \(results)")
+//                        print("json == \(results)")
                         self.resultsArray.removeAll()
                         
                         self.resultsArray.append(results)
-                        print("resultsarray == \(self.resultsArray)")
+//                        print("resultsarray == \(self.resultsArray)")
                         
                         DispatchQueue.main.async {
                             self.placeTable.reloadData()
                         }
                     } else{
-                        print("Translation failed")
+//                        print("Translation failed")
                     }
                 } else{
-                    print("no data")
+//                    print("no data")
                 }
             } else{
-                print("error")
+//                print("error")
             }
-            print("This ran")
+//            print("This ran")
         }
         
         task.resume()
     }
-    
-    //Yelp API Search
-//    func findYelpLocations() {
-//        let apikey = "NpE-HLs5nHXft6q067v6wt1fOUUGkxfcwELz1yXVcwNuESEvANjrIrXdtCEQsSyl_B4xnKaBe6W21NkdRrd7xUkQU9EuK-aXSY6JWhs11cxOGPSS2ZOaHyHqex2EXXYx"
-//        let yelpAPIClient = CDYelpAPIClient(apiKey: apikey)
-//        yelpAPIClient.cancelAllPendingAPIRequests()
-//        yelpAPIClient.searchBusinesses(byTerm: searchQuery, location: nil, latitude: userLat, longitude: userLong, radius: 5000, categories: [.restaurants,.bars,.cafes], locale: nil, limit: 20, offset: nil, sortBy: .bestMatch, priceTiers: nil, openNow: true, openAt: nil, attributes: nil) { (response) in
-//                if let response = response,
-//                    let businesses = response.businesses,
-//                    businesses.count>0{
-//                    print("Results found")
-//
-//                    self.resultsArray = businesses
-//                } else{
-//                    print("none found")
-//                }
-//            print("this ran")
-//        }
-//
-//
-//    }
-    
-    
-    //Old Maps API Search
-//    func searchLocation(){
-//
-//        var searchString = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=\(searchQuery)&inputtype=textquery&fields=formatted_address,name,opening_hours,rating,geometry/location&locationbias=circle:10000@\(userLat),\(userLong)&key=AIzaSyBnwkbhnLSt-IakK2mEyMA5lJnbsIBscGM"
-//
-//        searchString = searchString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
-//
-//        var urlRequest = URLRequest(url: URL(string: searchString)!)
-//
-//        urlRequest.httpMethod = "GET"
-//
-//        let task = URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
-//            if error == nil{
-//                print("No error")
-//                let responseData = data
-//                if data != nil{
-//                    let jsonDict = try? JSONSerialization.jsonObject(with: responseData!, options: .mutableContainers)
-//
-//                    if let dict = jsonDict as? Dictionary<String, AnyObject>{
-//                        if let results = dict["candidates"] as? [Dictionary<String, AnyObject>]{
-//                            print("json == \(results)")
-//                            self.resultsArray.removeAll()
-//                            for dct in results{
-//                                self.resultsArray.append(dct)
-//                            }
-//                            DispatchQueue.main.async {
-//                                self.placeTable.reloadData()
-//                            }
-//
-//                        }
-//                    }
-//                }else{
-//                    print("error")
-//                }
-//
-//            }else{
-//                print("error is: " + error.debugDescription)
-//            }
-//        }
-//        task.resume()
-//    }
-//}
 }
 extension ResultViewController: CLLocationManagerDelegate{
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        let locValue:CLLocationCoordinate2D = manager.location!.coordinate
-        userLat = locValue.latitude
-        userLong = locValue.longitude
+        if let location = locations.last
+        {
+            if((location.horizontalAccuracy) < CLLocationAccuracy(0)){
+                return
+            }
+            let locValue:CLLocationCoordinate2D = manager.location!.coordinate
+            userLat = locValue.latitude
+            userLong = locValue.longitude
+        }
+        
+        self.getlocation()
     }
 }
 
@@ -194,24 +139,27 @@ extension ResultViewController: UITableViewDataSource{
         if let lblPlaceName = cell?.contentView.viewWithTag(102) as? UILabel{
             let place = self.resultsArray[indexPath.row]
             let business = place["businesses"]
-//            print("businesses == \(String(describing: businesses))")
             let businesses = business as! Array<[String:AnyObject]>
             let businessFinal = businesses[indexPath.row]
             
             
-//            print("business1 == \(business1)")
             let name:String = businessFinal["name"] as! String
-            let address:String = businessFinal["address1"] as! String
-//            addressFinal = address
-//            nameFinal = name
-//            let rating = place.rating
-//            let businessLat = place.coordinates?.latitude
-//            let businessLong = place.coordinates?.longitude
+            print("name == \(name)")
+            let location = businessFinal["location"] as! Dictionary<String,AnyObject>
+            let addressTemp = location["display_address"] as! Array<String>
+            let address1 = addressTemp[0] as! String
+            let address2 = addressTemp[1] as! String
+            let address = address1 + " " + address2
+            addressFinal = address
+            nameFinal = name
+            let rating = businessFinal["rating"] as! Double
             
-//            locLat = businessLat as! Double
-//            locLong = businessLong as! Double
+            let coordinates = businessFinal["coordinates"] as! Dictionary<String, Double>
+            locLat = coordinates["latitude"]!
+            locLong = coordinates["longitude"]!
             
-//            lblPlaceName.text = name + ". " + ". " + ". The rating is " + "\(rating)"
+            
+            lblPlaceName.text = name + ". The rating is " + "\(rating)"
             
         }
         
@@ -223,7 +171,9 @@ extension ResultViewController: UITableViewDataSource{
         if segue.identifier == "mapSegue"{
             if let destination = segue.destination as? MapViewController{
                 destination.address = addressFinal
-                destination.name = nameFinal  
+                destination.name = nameFinal
+                destination.lat = locLat
+                destination.lon = locLong
             }
         }
     }
