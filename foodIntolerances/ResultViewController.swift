@@ -147,8 +147,8 @@ extension ResultViewController: UITableViewDataSource{
             print("name == \(name)")
             let location = businessFinal["location"] as! Dictionary<String,AnyObject>
             let addressTemp = location["display_address"] as! Array<String>
-            let address1 = addressTemp[0] as! String
-            let address2 = addressTemp[1] as! String
+            let address1 = addressTemp[0]
+            let address2 = addressTemp[1]
             let address = address1 + " " + address2
             addressFinal = address
             nameFinal = name
