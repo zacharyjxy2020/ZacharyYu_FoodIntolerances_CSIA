@@ -28,28 +28,10 @@ class MapViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        getCoordinates()
-        
     }
     
 
-    func getCoordinates() {
-        geocoder.geocodeAddressString(address) {(placemarks,error) in
-            guard
-                let placemarks = placemarks,
-                let location = placemarks.first?.location
-                else {
-                    print("No location found")
-                    return
-                }
-            
-                self.lat = location.coordinate.latitude
-                self.lon = location.coordinate.longitude
-            }
-    }
-    
+
     override func loadView() {
         let camera = GMSCameraPosition.camera(withLatitude: lat, longitude: lon, zoom: zoomLevel)
         mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)

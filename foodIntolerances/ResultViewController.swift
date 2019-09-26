@@ -18,6 +18,7 @@ class ResultViewController: UIViewController{
     var searchQuery: String = ""
     var locationManager = CLLocationManager()
     
+    var cllocation = CLLocation()
     
     var addressFinal:String = ""
     var nameFinal:String = ""
@@ -25,9 +26,7 @@ class ResultViewController: UIViewController{
     var locLat:Double = 0.0
     var locLong:Double = 0.0
     
-    
-    var userLat: Double = 0.0
-    var userLong: Double = 0.0
+    var restaurantArray: Array<Restaurant>!
     
     
     @IBOutlet weak var placeTable: UITableView!
@@ -46,11 +45,13 @@ class ResultViewController: UIViewController{
         placeTable.delegate = self
         placeTable.estimatedRowHeight = 44.0
         
+        restaurantArray = []
         
         
         
         getlocation()
-        searchRestaurants()
+        
+        
 //          findYelpLocations()
 //        searchLocation()
     }
@@ -66,44 +67,69 @@ class ResultViewController: UIViewController{
             locationManager.startUpdatingLocation()
         } else{
             locationManager.requestAlwaysAuthorization()
-            userLat = 0
-            userLong = 0
         }
     }
     
     func searchRestaurants() {
         let apikey = "NpE-HLs5nHXft6q067v6wt1fOUUGkxfcwELz1yXVcwNuESEvANjrIrXdtCEQsSyl_B4xnKaBe6W21NkdRrd7xUkQU9EuK-aXSY6JWhs11cxOGPSS2ZOaHyHqex2EXXYx"
-        let urL = URL(string: "https://api.yelp.com/v3/businesses/search?categories=restaurants%2Cbars%2Ccafes&latitude=\(userLat)&limit=20&longitude=\(userLong)&open_now=1&radius=5000&sort_by=best_match&term=\(searchQuery)")
+        let urL = URL(string: "https://api.yelp.com/v3/businesses/search?categories=restaurants%2Cbars%2Ccafes&latitude=\(cllocation.coordinate.latitude as! Double)&limit=20&longitude=\(cllocation.coordinate.longitude as! Double)&open_now=1&radius=5000&sort_by=best_match&term=\(searchQuery)")
+        
+        print("User lat == \(cllocation.coordinate.latitude)")
+        print("user long == \(cllocation.coordinate.longitude)")
         var request = URLRequest(url: urL!)
         request.setValue("Bearer \(apikey)", forHTTPHeaderField: "Authorization")
         request.httpMethod = "GET"
         
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
             if error == nil{
-//                print("no error")
+                print("no error")
                 let responseData = data
                 if data != nil{
                     let jsonDict = try? JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
-//                    print(jsonDict)
+                    print(jsonDict)
                     
                     if let results = jsonDict as? [String: Any] {
-//                        print("json == \(results)")
-                        self.resultsArray.removeAll()
+                        print("json == \(results)")
                         
-                        self.resultsArray.append(results)
-//                        print("resultsarray == \(self.resultsArray)")
+                        self.restaurantArray.removeAll()
+                        
+                        let results2 = results["businesses"] as! Array<[String:AnyObject]>
+                        print("results2 == \(results2)")
+                        
+                        
+                        for dct in results2{
+                            print("this ran1")
+                            let location = dct["location"] as! [String:AnyObject]
+                            let addressArray = location["display_address"] as! Array<String>
+                            let address1 = addressArray[0]
+                            let address2 = addressArray[1]
+                            let address = address1 + ", " + address2
+                            
+                            let coordinates = dct["coordinates"] as! [String:Double]
+                            let lat = coordinates["latitude"]
+                            let lon = coordinates["longitude"]
+
+                            
+                            let tempRest = Restaurant(name: dct["name"] as! String, address: address, lat: lat!, lon: lon!, rating: dct["rating"] as! Double)
+                            
+                            self.restaurantArray.append(tempRest)
+                            print("this ran")
+                        }
+                        
+                        print("count1 == \(self.restaurantArray.count)")
                         
                         DispatchQueue.main.async {
                             self.placeTable.reloadData()
+                            print("count2 == \(self.restaurantArray.count)")
                         }
                     } else{
-//                        print("Translation failed")
+                        print("Translation failed")
                     }
                 } else{
-//                    print("no data")
+                    print("no data")
                 }
             } else{
-//                print("error")
+                print("error")
             }
 //            print("This ran")
         }
@@ -120,44 +146,39 @@ extension ResultViewController: CLLocationManagerDelegate{
                 return
             }
             let locValue:CLLocationCoordinate2D = manager.location!.coordinate
-            userLat = locValue.latitude
-            userLong = locValue.longitude
+            cllocation = manager.location!
         }
         
-        self.getlocation()
+        self.searchRestaurants()
     }
 }
 
 extension ResultViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return resultsArray.count
+        return restaurantArray.count
     }
+    
+    
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "placeCell")
+        
+        print(restaurantArray.count)
         if let lblPlaceName = cell?.contentView.viewWithTag(102) as? UILabel{
-            let place = self.resultsArray[indexPath.row]
-            let business = place["businesses"]
-            let businesses = business as! Array<[String:AnyObject]>
-            let businessFinal = businesses[indexPath.row]
             
+            let restaurant = restaurantArray[indexPath.row]
+            let name = restaurant.name
+            let address = restaurant.address
+            let lat = restaurant.lat
+            let lon = restaurant.lon
+            let rating = restaurant.rating
             
-            let name:String = businessFinal["name"] as! String
-            print("name == \(name)")
-            let location = businessFinal["location"] as! Dictionary<String,AnyObject>
-            let addressTemp = location["display_address"] as! Array<String>
-            let address1 = addressTemp[0]
-            let address2 = addressTemp[1]
-            let address = address1 + " " + address2
-            addressFinal = address
-            nameFinal = name
-            let rating = businessFinal["rating"] as! Double
+            self.locLat = lat
+            self.locLong = lon
             
-            let coordinates = businessFinal["coordinates"] as! Dictionary<String, Double>
-            locLat = coordinates["latitude"]!
-            locLong = coordinates["longitude"]!
-            
+            self.addressFinal = address
+            self.nameFinal = name
             
             lblPlaceName.text = name + ". The rating is " + "\(rating)"
             

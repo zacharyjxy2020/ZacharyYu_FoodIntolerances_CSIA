@@ -24,6 +24,7 @@
 		B6F7818622EAF18F004C1DF7 /* veganArt.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B6F7818522EAF18F004C1DF7 /* veganArt.jpg */; };
 		B6F7818A22ED753F004C1DF7 /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F7818922ED753F004C1DF7 /* ResultViewController.swift */; };
 		B6F7818C22ED86FB004C1DF7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B6F7818B22ED86FB004C1DF7 /* GoogleService-Info.plist */; };
+		B6FB27B5233C50A9000ACFBB /* Restaurant.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6FB27B4233C50A9000ACFBB /* Restaurant.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +71,7 @@
 		B6F7818522EAF18F004C1DF7 /* veganArt.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = veganArt.jpg; path = ../../../veganArt.jpg; sourceTree = "<group>"; };
 		B6F7818922ED753F004C1DF7 /* ResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewController.swift; sourceTree = "<group>"; };
 		B6F7818B22ED86FB004C1DF7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		B6FB27B4233C50A9000ACFBB /* Restaurant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Restaurant.swift; sourceTree = "<group>"; };
 		D6C6E1955759124974626A00 /* Pods-foodIntolerancesUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-foodIntolerancesUITests.release.xcconfig"; path = "Target Support Files/Pods-foodIntolerancesUITests/Pods-foodIntolerancesUITests.release.xcconfig"; sourceTree = "<group>"; };
 		DABFE73317BA9E844DFC0D78 /* Pods-foodIntolerances.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-foodIntolerances.release.xcconfig"; path = "Target Support Files/Pods-foodIntolerances/Pods-foodIntolerances.release.xcconfig"; sourceTree = "<group>"; };
 		F5F85E81DAB026E7C5C848E7 /* Pods_foodIntolerances.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_foodIntolerances.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -164,6 +166,7 @@
 				B6F7818322EAF0F6004C1DF7 /* vegetarianArt.png */,
 				B6F7818922ED753F004C1DF7 /* ResultViewController.swift */,
 				B635C9E3231CF14B0053397D /* MapViewController.swift */,
+				B6FB27B4233C50A9000ACFBB /* Restaurant.swift */,
 			);
 			path = foodIntolerances;
 			sourceTree = "<group>";
@@ -431,6 +434,7 @@
 			files = (
 				B6F7817A22E987E3004C1DF7 /* SecondViewController.swift in Sources */,
 				B62E847F22E71590001F757E /* ViewController.swift in Sources */,
+				B6FB27B5233C50A9000ACFBB /* Restaurant.swift in Sources */,
 				B62E847D22E71590001F757E /* AppDelegate.swift in Sources */,
 				B635C9E4231CF14B0053397D /* MapViewController.swift in Sources */,
 				B6F7818A22ED753F004C1DF7 /* ResultViewController.swift in Sources */,
