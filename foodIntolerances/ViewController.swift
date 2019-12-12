@@ -22,10 +22,13 @@ class ViewController: UIViewController {
         if let authUI = FUIAuth.defaultAuthUI(){
             authUI.delegate = self
             
+            let providers = [FUIEmailAuth()]
+            authUI.providers = providers
             
             let authViewController = authUI.authViewController()
             present(authViewController, animated: true, completion: nil)
             
+            performSegue(withIdentifier: "signUpSegue", sender: self)
         }
     }
     
@@ -37,8 +40,10 @@ class ViewController: UIViewController {
 extension ViewController: FUIAuthDelegate{
     func authUI(_ authUI: FUIAuth, didSignInWith authDataResult: AuthDataResult?, error: Error?) {
         if error != nil{
+            print("no error")
             performSegue(withIdentifier: "signUpSegue", sender: self)
         } else{
+            print("Error")
             return
         }
     }

@@ -12,8 +12,8 @@ import GoogleMaps
 
 class MapViewController: UIViewController {
 
-    var address:String = ""
-    var name: String = ""
+    
+    
     
     var mapView = GMSMapView()
     
@@ -21,31 +21,37 @@ class MapViewController: UIViewController {
     var coordinates:CLLocationCoordinate2D!
     
     let geocoder =  CLGeocoder()
-    var lat: Double = 0.0
-    var lon: Double = 0.0
     let zoomLevel:Float = 6.0
     
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
+
     
 
 
     override func loadView() {
-        let camera = GMSCameraPosition.camera(withLatitude: lat, longitude: lon, zoom: zoomLevel)
+        let camera = GMSCameraPosition.camera(withLatitude: Constants.locLat, longitude: Constants.locLong, zoom: zoomLevel)
         mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
         self.view = mapView
-        
+
         addMarker()
+        
+        print("map lat == \(Constants.locLat)")
+        print("map lon == \(Constants.locLong)")
+
     }
+    
+    
+
     
     func addMarker(){
         let marker = GMSMarker()
-        marker.position = CLLocationCoordinate2D(latitude: lat, longitude: lon)
-        marker.title = name
-        marker.snippet = address
+        marker.position = CLLocationCoordinate2D(latitude: Constants.locLat, longitude: Constants.locLong)
+        marker.title = Constants.nameFinal
+        marker.snippet = Constants.addressFinal
         marker.map = mapView
+    }
+    
+    @IBAction func onClick(_ sender: Any) {
+        performSegue(withIdentifier: "favourite2Segue", sender: self)
     }
     
 }

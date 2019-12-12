@@ -10,6 +10,7 @@ pod 'Firebase/Analytics'
 pod 'FirebaseUI/Auth'
 pod 'GoogleMaps'
 pod 'GooglePlaces'
+pod 'FirebaseUI/Email'
 
 
 pod 'CDYelpFusionKit' 

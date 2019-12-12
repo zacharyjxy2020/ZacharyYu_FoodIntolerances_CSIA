@@ -10,6 +10,8 @@
 		1470AEC50FDB90220D008B4C /* Pods_foodIntolerancesTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6012A9F5894BD13E4251E662 /* Pods_foodIntolerancesTests.framework */; };
 		A40D560472FF38677BE44F56 /* Pods_foodIntolerancesUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B663F62B35059B8B2EA1FCE9 /* Pods_foodIntolerancesUITests.framework */; };
 		AAC8099A49DEA4DA378EBBF3 /* Pods_foodIntolerances.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5F85E81DAB026E7C5C848E7 /* Pods_foodIntolerances.framework */; };
+		B60B0A3B23593C9B00C12856 /* customCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B60B0A3A23593C9A00C12856 /* customCell.swift */; };
+		B60B0A4323594FA500C12856 /* FavouriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B60B0A4223594FA500C12856 /* FavouriteViewController.swift */; };
 		B62E847D22E71590001F757E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62E847C22E71590001F757E /* AppDelegate.swift */; };
 		B62E847F22E71590001F757E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62E847E22E71590001F757E /* ViewController.swift */; };
 		B62E848222E71590001F757E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B62E848022E71590001F757E /* Main.storyboard */; };
@@ -18,6 +20,12 @@
 		B62E849222E715AF001F757E /* foodIntolerancesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62E849122E715AF001F757E /* foodIntolerancesTests.swift */; };
 		B62E849D22E715AF001F757E /* foodIntolerancesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62E849C22E715AF001F757E /* foodIntolerancesUITests.swift */; };
 		B635C9E4231CF14B0053397D /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B635C9E3231CF14B0053397D /* MapViewController.swift */; };
+		B6A833E823A0C26B009D9C59 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A833E723A0C26B009D9C59 /* Constants.swift */; };
+		B6DF75542357EC0000654FCB /* arrow_left-512.png in Resources */ = {isa = PBXBuildFile; fileRef = B6DF75532357EBFF00654FCB /* arrow_left-512.png */; };
+		B6DF75562357FDE000654FCB /* goldStar.png in Resources */ = {isa = PBXBuildFile; fileRef = B6DF75552357FDE000654FCB /* goldStar.png */; };
+		B6DF75582357FDE500654FCB /* whiteStar.png in Resources */ = {isa = PBXBuildFile; fileRef = B6DF75572357FDE500654FCB /* whiteStar.png */; };
+		B6DF755A235800C500654FCB /* customInfoWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6DF7559235800C500654FCB /* customInfoWindow.xib */; };
+		B6DF755C2358014E00654FCB /* CustomInfoWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6DF755B2358014E00654FCB /* CustomInfoWindow.swift */; };
 		B6F7817A22E987E3004C1DF7 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F7817922E987E3004C1DF7 /* SecondViewController.swift */; };
 		B6F7818222EAF084004C1DF7 /* glutenFree.png in Resources */ = {isa = PBXBuildFile; fileRef = B6F7818122EAF084004C1DF7 /* glutenFree.png */; };
 		B6F7818422EAF0F6004C1DF7 /* vegetarianArt.png in Resources */ = {isa = PBXBuildFile; fileRef = B6F7818322EAF0F6004C1DF7 /* vegetarianArt.png */; };
@@ -50,6 +58,8 @@
 		44FFB661FEAF54774D627D4F /* Pods-foodIntolerancesTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-foodIntolerancesTests.release.xcconfig"; path = "Target Support Files/Pods-foodIntolerancesTests/Pods-foodIntolerancesTests.release.xcconfig"; sourceTree = "<group>"; };
 		568979861BAA99BB5CF4978D /* Pods-foodIntolerancesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-foodIntolerancesTests.debug.xcconfig"; path = "Target Support Files/Pods-foodIntolerancesTests/Pods-foodIntolerancesTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6012A9F5894BD13E4251E662 /* Pods_foodIntolerancesTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_foodIntolerancesTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B60B0A3A23593C9A00C12856 /* customCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = customCell.swift; sourceTree = "<group>"; };
+		B60B0A4223594FA500C12856 /* FavouriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteViewController.swift; sourceTree = "<group>"; };
 		B62E847922E71590001F757E /* foodIntolerances.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = foodIntolerances.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B62E847C22E71590001F757E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B62E847E22E71590001F757E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -65,6 +75,12 @@
 		B62E849E22E715AF001F757E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B635C9E3231CF14B0053397D /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		B663F62B35059B8B2EA1FCE9 /* Pods_foodIntolerancesUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_foodIntolerancesUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B6A833E723A0C26B009D9C59 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		B6DF75532357EBFF00654FCB /* arrow_left-512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "arrow_left-512.png"; path = "../../../arrow_left-512.png"; sourceTree = "<group>"; };
+		B6DF75552357FDE000654FCB /* goldStar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = goldStar.png; path = ../../../goldStar.png; sourceTree = "<group>"; };
+		B6DF75572357FDE500654FCB /* whiteStar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = whiteStar.png; path = ../../../whiteStar.png; sourceTree = "<group>"; };
+		B6DF7559235800C500654FCB /* customInfoWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = customInfoWindow.xib; sourceTree = "<group>"; };
+		B6DF755B2358014E00654FCB /* CustomInfoWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomInfoWindow.swift; sourceTree = "<group>"; };
 		B6F7817922E987E3004C1DF7 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 		B6F7818122EAF084004C1DF7 /* glutenFree.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = glutenFree.png; path = ../../../glutenFree.png; sourceTree = "<group>"; };
 		B6F7818322EAF0F6004C1DF7 /* vegetarianArt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = vegetarianArt.png; path = ../../../vegetarianArt.png; sourceTree = "<group>"; };
@@ -155,9 +171,12 @@
 			children = (
 				B6F7818B22ED86FB004C1DF7 /* GoogleService-Info.plist */,
 				B62E847C22E71590001F757E /* AppDelegate.swift */,
+				B6DF75532357EBFF00654FCB /* arrow_left-512.png */,
 				B62E847E22E71590001F757E /* ViewController.swift */,
 				B62E848022E71590001F757E /* Main.storyboard */,
+				B6DF75552357FDE000654FCB /* goldStar.png */,
 				B6F7818122EAF084004C1DF7 /* glutenFree.png */,
+				B6DF75572357FDE500654FCB /* whiteStar.png */,
 				B62E848322E715AF001F757E /* Assets.xcassets */,
 				B62E848522E715AF001F757E /* LaunchScreen.storyboard */,
 				B6F7818522EAF18F004C1DF7 /* veganArt.jpg */,
@@ -167,6 +186,11 @@
 				B6F7818922ED753F004C1DF7 /* ResultViewController.swift */,
 				B635C9E3231CF14B0053397D /* MapViewController.swift */,
 				B6FB27B4233C50A9000ACFBB /* Restaurant.swift */,
+				B6DF7559235800C500654FCB /* customInfoWindow.xib */,
+				B6DF755B2358014E00654FCB /* CustomInfoWindow.swift */,
+				B60B0A3A23593C9A00C12856 /* customCell.swift */,
+				B60B0A4223594FA500C12856 /* FavouriteViewController.swift */,
+				B6A833E723A0C26B009D9C59 /* Constants.swift */,
 			);
 			path = foodIntolerances;
 			sourceTree = "<group>";
@@ -299,12 +323,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				B62E848722E715AF001F757E /* LaunchScreen.storyboard in Resources */,
+				B6DF75582357FDE500654FCB /* whiteStar.png in Resources */,
 				B6F7818622EAF18F004C1DF7 /* veganArt.jpg in Resources */,
 				B6F7818222EAF084004C1DF7 /* glutenFree.png in Resources */,
 				B6F7818422EAF0F6004C1DF7 /* vegetarianArt.png in Resources */,
 				B62E848422E715AF001F757E /* Assets.xcassets in Resources */,
+				B6DF75562357FDE000654FCB /* goldStar.png in Resources */,
+				B6DF755A235800C500654FCB /* customInfoWindow.xib in Resources */,
 				B62E848222E71590001F757E /* Main.storyboard in Resources */,
 				B6F7818C22ED86FB004C1DF7 /* GoogleService-Info.plist in Resources */,
+				B6DF75542357EC0000654FCB /* arrow_left-512.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -435,8 +463,12 @@
 				B6F7817A22E987E3004C1DF7 /* SecondViewController.swift in Sources */,
 				B62E847F22E71590001F757E /* ViewController.swift in Sources */,
 				B6FB27B5233C50A9000ACFBB /* Restaurant.swift in Sources */,
+				B6DF755C2358014E00654FCB /* CustomInfoWindow.swift in Sources */,
+				B60B0A4323594FA500C12856 /* FavouriteViewController.swift in Sources */,
+				B6A833E823A0C26B009D9C59 /* Constants.swift in Sources */,
 				B62E847D22E71590001F757E /* AppDelegate.swift in Sources */,
 				B635C9E4231CF14B0053397D /* MapViewController.swift in Sources */,
+				B60B0A3B23593C9B00C12856 /* customCell.swift in Sources */,
 				B6F7818A22ED753F004C1DF7 /* ResultViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
