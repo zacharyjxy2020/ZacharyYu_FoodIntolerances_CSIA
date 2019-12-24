@@ -2,8 +2,37 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:foodIntolerances.xcodeproj">
+      location = "group:/Users/Zachary/Downloads/Forms 2/index.htm">
    </FileRef>
+   <Group
+      location = "container:"
+      name = "Documentation">
+      <FileRef
+         location = "group:../../../Downloads/Crit_A_Planning.pdf">
+      </FileRef>
+      <FileRef
+         location = "group:../../../Downloads/Crit_B_Design.pdf">
+      </FileRef>
+      <FileRef
+         location = "group:../../../Downloads/Crit_B_Record_of_Tasks.pdf">
+      </FileRef>
+      <FileRef
+         location = "group:../../../Downloads/Crit_C_Development.pdf">
+      </FileRef>
+      <FileRef
+         location = "group:../../Crit_D_Functionality.mp4">
+      </FileRef>
+      <FileRef
+         location = "group:../../../Downloads/Crit_E_Evaluation.pdf">
+      </FileRef>
+   </Group>
+   <Group
+      location = "container:"
+      name = "Product">
+      <FileRef
+         location = "group:/Users/Zachary/Desktop/Xcode Stuff/foodIntolerances/foodIntolerances.xcodeproj">
+      </FileRef>
+   </Group>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">
    </FileRef>

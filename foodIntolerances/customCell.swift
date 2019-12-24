@@ -10,7 +10,6 @@ import UIKit
 
 class customCell: UITableViewCell {
 
-    var favRest:Restaurant = Restaurant(name: "", address: "", lat: 0, lon: 0, rating: 0)
     var currRest:Restaurant = Restaurant(name: "", address: "", lat: 0, lon: 0, rating: 0)
     
     @IBOutlet weak var star: UIButton!
@@ -36,6 +35,7 @@ class customCell: UITableViewCell {
             Constants.favRests.append(currRest)
         }
     }
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 

@@ -20,7 +20,7 @@ class FavouriteViewController: UIViewController {
         myTable.delegate = self
         myTable.estimatedRowHeight = 44.0
         
-        print("favelist == \(Constants.favRests)")
+//        print("favelist == \(Constants.favRests)")
         
         DispatchQueue.main.async {
             self.myTable.reloadData()
@@ -35,7 +35,7 @@ extension FavouriteViewController: UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "myCell")
-        print("favRests == \(Constants.favRests)")
+//        print("favRests == \(Constants.favRests)")
         if let lbl = cell?.contentView.viewWithTag(110) as? UILabel{
             let restaurant = Constants.favRests[indexPath.row]
             
@@ -43,7 +43,7 @@ extension FavouriteViewController: UITableViewDataSource{
             let name = restaurant.name
             lbl.text = name + ". Rating: " + "\(rating)"
             
-            print("Table Ran")
+//            print("Table Ran")
             
             
         }

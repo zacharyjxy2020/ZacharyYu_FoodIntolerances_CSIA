@@ -151,8 +151,8 @@
 				B62E849022E715AF001F757E /* foodIntolerancesTests */,
 				B62E849B22E715AF001F757E /* foodIntolerancesUITests */,
 				B62E847A22E71590001F757E /* Products */,
-				9482CE63FA1810704A659109 /* Pods */,
 				451DAEEC4B2A0B2EA2A93873 /* Frameworks */,
+				9482CE63FA1810704A659109 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};

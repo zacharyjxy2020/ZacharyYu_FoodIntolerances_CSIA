@@ -34,8 +34,8 @@ class MapViewController: UIViewController {
 
         addMarker()
         
-        print("map lat == \(Constants.locLat)")
-        print("map lon == \(Constants.locLong)")
+//        print("map lat == \(Constants.locLat)")
+//        print("map lon == \(Constants.locLong)")
 
     }
     

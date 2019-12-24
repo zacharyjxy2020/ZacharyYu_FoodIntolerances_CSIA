@@ -17,4 +17,5 @@ class Constants {
     static var locLat = 0.0
     
     static var locLong = 0.0
+    
 }

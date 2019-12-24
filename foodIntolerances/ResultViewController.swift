@@ -8,9 +8,8 @@
 
 import UIKit
 import GoogleMaps
-import GooglePlaces
-import CDYelpFusionKit
-import AlamofireObjectMapper
+import Firebase
+
 
 
 class ResultViewController: UIViewController{
@@ -38,7 +37,7 @@ class ResultViewController: UIViewController{
     var resultsArray: [Dictionary<String,Any>] = []
 //    var resultsArray: [CDYelpBusiness] = []
     
-    let placeclient = GMSPlacesClient()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,29 +77,23 @@ class ResultViewController: UIViewController{
         let apikey = "NpE-HLs5nHXft6q067v6wt1fOUUGkxfcwELz1yXVcwNuESEvANjrIrXdtCEQsSyl_B4xnKaBe6W21NkdRrd7xUkQU9EuK-aXSY6JWhs11cxOGPSS2ZOaHyHqex2EXXYx"
         let urL = URL(string: "https://api.yelp.com/v3/businesses/search?categories=restaurants%2Cbars%2Ccafes&latitude=\(cllocation.coordinate.latitude as! Double)&limit=20&longitude=\(cllocation.coordinate.longitude as! Double)&open_now=1&radius=5000&sort_by=best_match&term=\(searchQuery)")
         
-        print("User lat == \(cllocation.coordinate.latitude)")
-        print("user long == \(cllocation.coordinate.longitude)")
         var request = URLRequest(url: urL!)
         request.setValue("Bearer \(apikey)", forHTTPHeaderField: "Authorization")
         request.httpMethod = "GET"
         
-        let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
-            if error == nil{
-                print("no error")
-                let responseData = data
-                if data != nil{
-                    let jsonDict = try? JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
-                    print(jsonDict)
+        let task = URLSession.shared.dataTask(with: request) {(data, response, error) in //starts a task to retrieve data from the API
+            if error == nil{ //Checks whether or not there is an error in the search query.
+
+                let responseData = data //Retrieves the response data
+                if data != nil{ //Checks if the data contains any information.
+                    let jsonDict = try? JSONSerialization.jsonObject(with: data!, options: .mutableContainers) //uses JSONSerialization to transform the data into a JSON dictionary.
+
                     
                     if let results = jsonDict as? [String: Any] {
-                        print("json == \(results)")
                         
-                        
-                        let results2 = results["businesses"] as! Array<[String:AnyObject]>
-                        print("results2 == \(results2)")
-                        
-                        
-                        for dct in results2{
+                        let results2 = results["businesses"] as! Array<[String:AnyObject]> //Takes the business results from the JSON dictionary and converts it into an array of dictionaries.
+
+                        for dct in results2{ //iterates through the array.
                             let location = dct["location"] as! [String:AnyObject]
                             let addressArray = location["display_address"] as! Array<String>
                             let address1 = addressArray[0]
@@ -110,11 +103,11 @@ class ResultViewController: UIViewController{
                             let coordinates = dct["coordinates"] as! [String:Double]
                             let lat = coordinates["latitude"]
                             let lon = coordinates["longitude"]
-
+                            //retrieves all the relevant information of the restaurant.
                             
-                            let tempRest = Restaurant(name: dct["name"] as! String, address: address, lat: lat!, lon: lon!, rating: dct["rating"] as! Double)
+                            let tempRest = Restaurant(name: dct["name"] as! String, address: address, lat: lat!, lon: lon!, rating: dct["rating"] as! Double) //creates a restaurant with the previous information
                             
-                            self.restaurantArray.append(tempRest)
+                            self.restaurantArray.append(tempRest) //adds the information to the viewcontroller's array.
                         }
                         
 
@@ -146,6 +139,7 @@ class ResultViewController: UIViewController{
     
     @IBAction func goToFavourites(_ sender: Any) {
         performSegue(withIdentifier: "favouriteSegue", sender: self)
+        
     }
     
 }
@@ -187,11 +181,6 @@ extension ResultViewController: UITableViewDataSource{
             
             let rating = restaurant.rating
             
-//            self.locLat = lat
-//            self.locLong = lon
-//
-//            self.addressFinal = address
-//            self.nameFinal = name
             
             lblPlaceName.text = name + ". The rating is " + "\(rating)"
             
@@ -232,8 +221,8 @@ extension ResultViewController: UITableViewDelegate{
         Constants.locLong = lon
         Constants.locLat = lat
         
-        print("Constant lat == \(lat)")
-        print("Constant lon == \(lon)")
+//        print("Constant lat == \(lat)")
+//        print("Constant lon == \(lon)")
     }
 }
 
